@@ -4,9 +4,8 @@ env:
   EB_APPLICATION_NAME       : "MyFlask"
 
 on:
-  push:
-    branches:
-      - main
+  pull_request:
+    types: [opened, reopened]
 
 jobs:
   scan_terraform:
