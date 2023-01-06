@@ -22,6 +22,7 @@ jobs:
         directory: /
         quiet    : true
         framework: terraform
+        output   : cli
 
 # jobs:
 #   scan_docker:
