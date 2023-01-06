@@ -1,0 +1,38 @@
+name: BridgeCrew Security Checks
+env:
+  EB_PACKAGE_S3_BUCKET_NAME : "adv-it-flask-application-packages"
+  EB_APPLICATION_NAME       : "MyFlask"
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  scan_terraform:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Git clone our repo
+      uses: actions/checkout@v3
+
+    - name: Run Checkov action
+      id  : checkov
+      uses: bridgecrewio/checkov-action@master
+      with:
+        directory: folder1/
+
+# jobs:
+#   scan_docker:
+#     runs-on: ubuntu-latest
+#
+#     steps:
+#     - name: Git clone our repo
+#       uses: actions/checkout@v3
+#
+#     - name: Run Checkov action
+#       id  : checkov
+#       uses: bridgecrewio/checkov-action@master
+#       with:
+#         directory   : docker/
+#         docker_image:
