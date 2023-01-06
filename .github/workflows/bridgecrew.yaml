@@ -19,8 +19,9 @@ jobs:
       id  : checkov
       uses: bridgecrewio/checkov-action@master
       with:
-        directory: folder1/
+        directory: /
         quiet    : true
+        framework: terraform
 
 # jobs:
 #   scan_docker:
