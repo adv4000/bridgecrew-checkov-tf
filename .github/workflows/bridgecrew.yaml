@@ -7,11 +7,8 @@ on:
     types: [opened, reopened]
 
 jobs:
-  scan_terraform:
+  get_terraform_modified_folders:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        changed_folders: ${{ steps.changed-files-specific.outputs.all_changed_files }}
 
     steps:
     - name: Git clone this repo
@@ -21,11 +18,8 @@ jobs:
         fetch-depth: 2
         persist-credentials: true
 
-    - name: Print nice message
-      run : ls -la
-
-    - name: Get changed files in the folder
-      id  : changed-files-specific
+    - name: Get Folders with changed files
+      id  : changed-folders
       uses: tj-actions/changed-files@v35
       with:
         dir_names: true
@@ -33,22 +27,38 @@ jobs:
           ${{ env.TERRAFORM_ROOT_FOLDER }}/**
 
 
+    outputs:
+      matrix          : ${{ steps.changed-folders.outputs.all_changed_files }}
+      changes_detected: ${{ steps.changed-folders.outputs.any_changed }}
+
+
+  scan_terraform_modified_folders:
+    runs-on: ubuntu-latest
+    needs  : [get_terraform_modified_folders]
+    if     : get_terraform_modified_folders.outputs.changes_detected == 'true'
+    strategy:
+      matrix:
+        changed_folders: ${{ get_terraform_modified_folders.outputs.matrix }}
+
+    steps:
     - name: Print changed files
-      if  : steps.changed-files-specific.outputs.any_changed == 'true'
       run: |
         echo "Files that have changed:"
-        for file in ${{ steps.changed-files-specific.outputs.all_changed_files }}
+        for file in ${{ needs.get_terraform_modified_folders.outputs. }}
          do
            echo $file
          done
+
+    - name: Git clone this repo
+      id  : git
+      uses: actions/checkout@v3
 
 
     - name: Run Checkov action
       id  : checkov
       uses: bridgecrewio/checkov-action@master
-      if  : steps.changed-files-specific.outputs.any_changed == 'true'
       with:
         directory    : ${{ matrix.changed_folders }}
         quiet        : true
-#        framework    : terraform
         output_format: cli
+#        framework    : terraform
