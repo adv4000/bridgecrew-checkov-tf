@@ -9,6 +9,9 @@ on:
 jobs:
   scan_terraform:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        changed_folders: ${{ steps.changed-files-specific.outputs.all_changed_files }}
 
     steps:
     - name: Git clone this repo
@@ -29,6 +32,7 @@ jobs:
         files: |
           ${{ env.TERRAFORM_ROOT_FOLDER }}/**
 
+
     - name: Print changed files
       if  : steps.changed-files-specific.outputs.any_changed == 'true'
       run: |
@@ -39,12 +43,12 @@ jobs:
          done
 
 
-    # - name: Run Checkov action
-    #   id  : checkov
-    #   uses: bridgecrewio/checkov-action@master
-    #   if  : steps.changed-files-specific.outputs.any_changed == 'true'
-    #   with:
-    #     directory    : ${{ env.TERRAFORM_ROOT_FOLDER }}
-    #     quiet        : true
-    #     framework    : terraform
-    #     output_format: cli
+    - name: Run Checkov action
+      id  : checkov
+      uses: bridgecrewio/checkov-action@master
+      if  : steps.changed-files-specific.outputs.any_changed == 'true'
+      with:
+        directory    : ${{ matrix.changed_folders }}
+        quiet        : true
+#        framework    : terraform
+        output_format: cli
