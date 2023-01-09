@@ -25,7 +25,7 @@ jobs:
       id  : changed-files-specific
       uses: tj-actions/changed-files@v35
       with:
-#        dir_names: true
+        dir_names: true
         files: |
           ${{ env.TERRAFORM_ROOT_FOLDER }}/**
 
