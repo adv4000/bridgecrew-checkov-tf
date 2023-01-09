@@ -27,8 +27,7 @@ jobs:
       with:
 #        dir_names: true
         files: |
-          ${{ env.TERRAFORM_ROOT_FOLDER }}/*.tf
-          ${{ env.TERRAFORM_ROOT_FOLDER }}/*.tfvars
+          ${{ env.TERRAFORM_ROOT_FOLDER }}/**
 
     - name: Print changed files
       if  : steps.changed-files-specific.outputs.any_changed == 'true'
