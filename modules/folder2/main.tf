@@ -5,7 +5,7 @@ resource "aws_security_group" "web" {
   vpc_id = aws_default_vpc.default.id # This need to be added since AWS Provider v4.29+ to set VPC id
 
   ingress {
-    description = "Allow port HTTP"
+    description = "Allow port HTTP "
     from_port   = 80
     to_port     = 80
     protocol    = "tcp"
