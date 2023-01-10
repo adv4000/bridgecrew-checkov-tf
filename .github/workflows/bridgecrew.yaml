@@ -1,4 +1,6 @@
+# This GHA Workflow get updated folders and run Checkov test on each folder
 name: BridgeCrew Security Checks
+
 env:
   TERRAFORM_ROOT_FOLDER : "modules"
 
