@@ -1,4 +1,4 @@
 resource "aws_eip" "lb" {
-  instance = "i-8768778876"
+  instance = "i-0b22a22eec53b9321"
   vpc      = true
 }
