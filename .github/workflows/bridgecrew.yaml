@@ -40,7 +40,7 @@ jobs:
 
     - name: Print changed Folders-MATRIX
       run : |
-        echo $GITHUB_OUTPUT
+        cat $GITHUB_OUTPUT
         echo ${{ steps.changed-folders-matrix.outputs.matrix }}
 
 
