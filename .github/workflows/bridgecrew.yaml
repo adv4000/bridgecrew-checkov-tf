@@ -45,6 +45,7 @@ jobs:
       matrix:
         changed_folders: ${{fromJson(needs.get_modified_folders.outputs.matrix)}}
 
+    steps:
     - name: Git clone this repo
       id  : git
       uses: actions/checkout@v3
