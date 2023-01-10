@@ -27,6 +27,12 @@ jobs:
         files: |
           ${{ env.TERRAFORM_ROOT_FOLDER }}/**
 
+    - name: Print If changed Detected
+      run : echo ${{ steps.changed-folders.outputs.any_changed }}
+
+    - name: Print changed Folders
+      run : echo ${{ steps.changed-folders.outputs.all_changed_files }}
+
 
     outputs:
       matrix          : ${{ steps.changed-folders.outputs.all_changed_files }}
