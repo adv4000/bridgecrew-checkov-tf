@@ -23,9 +23,13 @@ jobs:
       uses: tj-actions/changed-files@v35
       with:
         dir_names: true
-        json     : false
+        json     : true
         files: |
           ${{ env.TERRAFORM_ROOT_FOLDER }}/**
+
+    - name: Create Matrix with changed Folders
+      id  : changed-folders-matrix
+      run : echo "matrix=${{ steps.changed-folders.outputs.all_changed_files }} >> $GITHUB_OUTPUT"
 
     - name: Print If changed Detected
       run : echo ${{ steps.changed-folders.outputs.any_changed }}
@@ -33,11 +37,15 @@ jobs:
     - name: Print changed Folders
       run : echo ${{ steps.changed-folders.outputs.all_changed_files }}
 
+    - name: Print changed Folders-MATRIX
+      run : |
+      echo $GITHUB_OUTPUT
+      echo ${{ steps.changed-folders-matrix.outputs.matrix }}
+
 
     outputs:
-      matrix          : ${{ steps.changed-folders.outputs.all_changed_files }}
       changes_detected: ${{ steps.changed-folders.outputs.any_changed }}
-
+      matrix          : ${{ steps.changed-folders-matrix.outputs.matrix }}
 
   scan_terraform_modified_folders:
     runs-on: ubuntu-latest
