@@ -16,9 +16,6 @@ jobs:
     - name: Git clone this repo
       id  : git
       uses: actions/checkout@v3
-      # with:
-      #   fetch-depth: 2
-      #   persist-credentials: true
 
     - name: Get Folders with changed files
       id  : changed-folders-array
