@@ -48,8 +48,8 @@ jobs:
     - name: Print changed Folders
       run : echo ${{ needs.get_terraform_modified_folders.outputs.changes_detected }}
 
-    - name: Print changed Folders in JSON
-      run : echo ${{fromJson(needs.get_terraform_modified_folders.outputs.matrix)}}
+    # - name: Print changed Folders in JSON
+    #   run : echo ${{ needs.get_terraform_modified_folders.outputs.matrix }}
     #
     # - name: Git clone this repo
     #   id  : git
