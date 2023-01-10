@@ -28,7 +28,7 @@ jobs:
           ${{ env.TERRAFORM_ROOT_FOLDER }}/**
 
     - name: Create Matrix with changed Folders
-      if  : steps.changed-folders.outputs.any_changed == 'true'
+      if  : steps.changed-folders-array.outputs.any_changed == 'true'
       id  : changed-folders-matrix
       run : echo "matrix=${{ steps.changed-folders-array.outputs.all_changed_files }}" >> $GITHUB_OUTPUT
 
