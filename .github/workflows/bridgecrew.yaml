@@ -36,27 +36,31 @@ jobs:
   scan_terraform_modified_folders:
     runs-on: ubuntu-latest
     needs  : get_terraform_modified_folders
-    if     : needs.get_terraform_modified_folders.outputs.changes_detected == 'true'
-    strategy:
-      matrix:
-        changed_folders: ${{fromJson(needs.get_terraform_modified_folders.outputs.matrix)}}
-
+    # if     : needs.get_terraform_modified_folders.outputs.changes_detected == 'true'
+    # strategy:
+    #   matrix:
+    #     changed_folders: ${{fromJson(needs.get_terraform_modified_folders.outputs.matrix)}}
+    #
     steps:
-    - name: Print changed files
-      run: |
-        echo "Files that have changed:"
-        eacho ${{ needs.get_terraform_modified_folders.outputs.matrix }}
+    - name: Print If changed Detected
+      run : echo ${{ needs.get_terraform_modified_folders.outputs.matrix }}
 
-    - name: Git clone this repo
-      id  : git
-      uses: actions/checkout@v3
+    - name: Print changed Folders
+      run : echo ${{ needs.get_terraform_modified_folders.outputs.changes_detected }}
 
-
-    - name: Run Checkov action
-      id  : checkov
-      uses: bridgecrewio/checkov-action@master
-      with:
-        directory    : ${{ matrix.changed_folders }}
-        quiet        : true
-        output_format: cli
+    - name: Print changed Folders in JSON
+      run : echo ${{fromJson(needs.get_terraform_modified_folders.outputs.matrix)}}
+    #
+    # - name: Git clone this repo
+    #   id  : git
+    #   uses: actions/checkout@v3
+    #
+    #
+    # - name: Run Checkov action
+    #   id  : checkov
+    #   uses: bridgecrewio/checkov-action@master
+    #   with:
+    #     directory    : ${{ matrix.changed_folders }}
+    #     quiet        : true
+    #     output_format: cli
 #        framework    : terraform
