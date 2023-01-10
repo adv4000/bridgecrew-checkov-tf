@@ -30,7 +30,7 @@ jobs:
     - name: Create Matrix with changed Folders
       if  : steps.changed-folders.outputs.any_changed == 'true'
       id  : changed-folders-matrix
-      run : echo "matrix=${{ steps.changed-folders.outputs.all_changed_files }} >> $GITHUB_OUTPUT"
+      run : echo "matrix=${{ steps.changed-folders.outputs.all_changed_files }}" >> $GITHUB_OUTPUT
 
     - name: Print If changed Detected
       run : echo ${{ steps.changed-folders.outputs.any_changed }}
@@ -38,10 +38,8 @@ jobs:
     - name: Print changed Folders
       run : echo ${{ steps.changed-folders.outputs.all_changed_files }}
 
-    - name: Print changed Folders-MATRIX
-      run : |
-        cat $GITHUB_OUTPUT
-        echo ${{ steps.changed-folders-matrix.outputs.matrix }}
+    - name: Print changed Folders MATRIX
+      run : echo ${{ steps.changed-folders-matrix.outputs.matrix }}
 
 
     outputs:
@@ -68,11 +66,11 @@ jobs:
       uses: actions/checkout@v3
 
 
-    # - name: Run Checkov action
-    #   id  : checkov
-    #   uses: bridgecrewio/checkov-action@master
-    #   with:
-    #     directory    : ${{ matrix.changed_folders }}
-    #     quiet        : true
-    #     output_format: cli
+    - name: Run Checkov action
+      id  : checkov
+      uses: bridgecrewio/checkov-action@master
+      with:
+        directory    : ${{ matrix.changed_folders }}
+        quiet        : true
+        output_format: cli
 #        framework    : terraform
