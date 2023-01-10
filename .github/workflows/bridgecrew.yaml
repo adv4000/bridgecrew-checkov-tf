@@ -36,7 +36,7 @@ jobs:
   scan_terraform_modified_folders:
     runs-on: ubuntu-latest
     needs  : get_terraform_modified_folders
-    if     : get_terraform_modified_folders.outputs.changes_detected == 'true'
+    if     : needs.get_terraform_modified_folders.outputs.changes_detected == 'true'
     strategy:
       matrix:
         changed_folders: ${{fromJson(needs.get_terraform_modified_folders.outputs.matrix)}}
