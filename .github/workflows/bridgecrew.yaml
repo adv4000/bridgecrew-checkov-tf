@@ -39,8 +39,7 @@ jobs:
     if     : needs.get_terraform_modified_folders.outputs.changes_detected == 'true'
     strategy:
       matrix:
-        changed_folders: ${{ needs.get_terraform_modified_folders.outputs.matrix }}
-#        ${{fromJson(needs.get_terraform_modified_folders.outputs.matrix)}}
+        changed_folders: ${{fromJson(needs.get_terraform_modified_folders.outputs.matrix)}}
 
     steps:
     - name: Print If changed Detected
