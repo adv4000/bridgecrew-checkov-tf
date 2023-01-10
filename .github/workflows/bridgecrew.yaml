@@ -19,7 +19,7 @@ jobs:
         persist-credentials: true
 
     - name: Get Folders with changed files
-      id  : changed-folders
+      id  : changed-folders-array
       uses: tj-actions/changed-files@v35
       with:
         dir_names: true
@@ -32,19 +32,10 @@ jobs:
       id  : changed-folders-matrix
       run : echo "matrix=${{ steps.changed-folders.outputs.all_changed_files }}" >> $GITHUB_OUTPUT
 
-    - name: Print If changed Detected
-      run : echo ${{ steps.changed-folders.outputs.any_changed }}
-
-    - name: Print changed Folders
-      run : echo ${{ steps.changed-folders.outputs.all_changed_files }}
-
-    - name: Print changed Folders MATRIX
-      run : echo ${{ steps.changed-folders-matrix.outputs.matrix }}
-
-
     outputs:
-      changes_detected: ${{ steps.changed-folders.outputs.any_changed }}
+      changes_detected: ${{ steps.changed-folders-array.outputs.any_changed }}
       matrix          : ${{ steps.changed-folders-matrix.outputs.matrix }}
+
 
   scan_terraform_modified_folders:
     runs-on: ubuntu-latest
@@ -55,16 +46,12 @@ jobs:
         changed_folders: ${{fromJson(needs.get_terraform_modified_folders.outputs.matrix)}}
 
     steps:
-    - name: Print If changed Detected
-      run : echo ${{ needs.get_terraform_modified_folders.outputs.changes_detected }}
-
-    - name: Print changed Folders
+    - name: Print Folders Matrix to Scan
       run : echo ${{ needs.get_terraform_modified_folders.outputs.matrix }}
 
     - name: Git clone this repo
       id  : git
       uses: actions/checkout@v3
-
 
     - name: Run Checkov action
       id  : checkov
