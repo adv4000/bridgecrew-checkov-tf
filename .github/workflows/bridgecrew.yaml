@@ -23,7 +23,7 @@ jobs:
       uses: tj-actions/changed-files@v35
       with:
         dir_names: true
-        json     : true
+        json     : false
         files: |
           ${{ env.TERRAFORM_ROOT_FOLDER }}/**
 
