@@ -1,38 +1,59 @@
+# This GHA Workflow get updated folders and run Checkov test on each folder
 name: BridgeCrew Security Checks
+
 env:
-  EB_PACKAGE_S3_BUCKET_NAME : "adv-it-flask-application-packages"
-  EB_APPLICATION_NAME       : "MyFlask"
+  TERRAFORM_ROOT_FOLDER : "modules"
 
 on:
-  push:
-    branches:
-      - main
+  pull_request:
+    types: [opened, reopened]
 
 jobs:
-  scan_terraform:
+  get_modified_folders:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Git clone our repo
+    - name: Git clone this repo
+      id  : git
+      uses: actions/checkout@v3
+
+    - name: Get Folders with changed files
+      id  : changed-folders-array
+      uses: tj-actions/changed-files@v35
+      with:
+        dir_names: true
+        json     : true
+        files: |
+          ${{ env.TERRAFORM_ROOT_FOLDER }}/**
+
+    - name: Create Matrix with changed Folders
+      if  : steps.changed-folders-array.outputs.any_changed == 'true'
+      id  : changed-folders-matrix
+      run : echo "matrix=${{ steps.changed-folders-array.outputs.all_changed_files }}" >> $GITHUB_OUTPUT
+
+    outputs:
+      changes_detected: ${{ steps.changed-folders-array.outputs.any_changed }}
+      matrix          : ${{ steps.changed-folders-matrix.outputs.matrix }}
+
+
+  scan_modified_folders:
+    runs-on: ubuntu-latest
+    needs  : get_modified_folders
+    if     : needs.get_modified_folders.outputs.changes_detected == 'true'
+    continue-on-error: true # Run thru all changed folders even one is failing
+    strategy:
+      matrix:
+        changed_folders: ${{fromJson(needs.get_modified_folders.outputs.matrix)}}
+
+    steps:
+    - name: Git clone this repo
+      id  : git
       uses: actions/checkout@v3
 
     - name: Run Checkov action
       id  : checkov
       uses: bridgecrewio/checkov-action@master
       with:
-        directory: folder1/
-
-# jobs:
-#   scan_docker:
-#     runs-on: ubuntu-latest
-#
-#     steps:
-#     - name: Git clone our repo
-#       uses: actions/checkout@v3
-#
-#     - name: Run Checkov action
-#       id  : checkov
-#       uses: bridgecrewio/checkov-action@master
-#       with:
-#         directory   : docker/
-#         docker_image:
+        directory    : ${{ matrix.changed_folders }}
+        quiet        : true
+        output_format: cli
