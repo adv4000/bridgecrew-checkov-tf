@@ -2,6 +2,11 @@
      agent any
         
      stages {
+         stage('BuildDockerImage') {
+             steps {
+                 sh 'docker build -t mynginx:latest ./docker'
+             }
+         }      
          stage('Checkout') {
              steps {
                  git branch: 'master', url: 'https://github.com/bridgecrewio/terragoat'
