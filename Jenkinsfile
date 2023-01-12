@@ -19,7 +19,7 @@
              steps {
                  script {
                      docker.image('bridgecrew/checkov:latest').inside("--entrypoint=''") {
-                         unstash 'terragoat'
+//                          unstash 'terragoat'
                          try {
                              sh 'checkov -d ./docker -o cli -o junitxml --output-file-path console,results.xml'
                              junit skipPublishingChecks: true, testResults: 'results.xml'
@@ -34,7 +34,7 @@
   
      }
      options {
-         preserveStashes()
+//          preserveStashes()
          timestamps()
      }
  }
