@@ -7,6 +7,7 @@
                  sh 'docker build -t mynginx:latest ./docker'
                  sh 'pip3 install --upgrade requests'
                  sh 'pip3 install checkov'
+                 sh 'pip3 show checkov'
                  sh 'checkov -d ./docker --use-enforcement-rules -o cli -o junitxml --output-file-path console,results.xml'
              }
          }      
