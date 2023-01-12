@@ -6,8 +6,11 @@
              steps {
                  sh 'docker build -t mynginx:latest ./docker'
                  sh 'pip install --upgrade requests'
+                 sh 'pip install checkov'
+                 sh 'pip run checkov -d . --use-enforcement-rules -o cli -o junitxml --output-file-path console,results.xml --repo-id example/terragoat --branch master'
              }
          }      
+/*      
          stage('BridgeCrew-Checkout') {
              steps {
                  git branch: 'master', url: 'https://github.com/bridgecrewio/terragoat'
@@ -30,6 +33,7 @@
                  }
              }
          }
+*/     
      }
      options {
          preserveStashes()
