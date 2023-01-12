@@ -7,7 +7,7 @@
                  sh 'docker build -t mynginx:latest ./docker'
                  sh 'sudo pip3 install checkov'
                  sh 'pip3 show checkov'
-                 sh '/home/jenkins/.local/lib/python3.8/site-packages/checkov -d ./docker --use-enforcement-rules -o cli -o junitxml --output-file-path console,results.xml'
+                 sh 'checkov -d ./docker --use-enforcement-rules -o cli -o junitxml --output-file-path console,results.xml'
              }
          }      
    
