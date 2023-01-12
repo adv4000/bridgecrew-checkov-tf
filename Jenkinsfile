@@ -5,8 +5,8 @@
          stage('BuildDockerImage') {
              steps {
                  sh 'docker build -t mynginx:latest ./docker'
-                 sh 'pip install --upgrade requests'
-                 sh 'pip install checkov'
+                 sh 'pip3 install --upgrade requests'
+                 sh 'pip3 install checkov'
                  sh 'checkov -d ./docker --use-enforcement-rules -o cli -o junitxml --output-file-path console,results.xml --repo-id example/terragoat --branch master'
              }
          }      
