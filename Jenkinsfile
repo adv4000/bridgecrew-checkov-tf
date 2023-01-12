@@ -9,6 +9,7 @@
          }      
          stage('DockerImage-Scan') {
              steps {
+                 sh 'sudo apt-get install libbz2-dev'
                  sh 'sudo pip3 install --upgrade requests'
                  sh 'sudo pip3 install bz2file'
                  sh 'sudo pip3 install checkov'
