@@ -8,12 +8,12 @@
              }
          }      
   
-         stage('BridgeCrew-Checkout') {
-             steps {
-                 git branch: 'master', url: 'https://github.com/bridgecrewio/terragoat'
-                 stash includes: '**/*', name: 'terragoat'
-             }
-         }
+//          stage('BridgeCrew-Checkout') {
+//              steps {
+//                  git branch: 'master', url: 'https://github.com/bridgecrewio/terragoat'
+//                  stash includes: '**/*', name: 'terragoat'
+//              }
+//          }
       
          stage('BridgeCrew-Checkov') {
              steps {
