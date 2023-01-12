@@ -5,6 +5,7 @@
          stage('BuildDockerImage') {
              steps {
                  sh 'docker build -t mynginx:latest ./docker'
+                 sh 'pip install --upgrade requests'
              }
          }      
          stage('BridgeCrew-Checkout') {
