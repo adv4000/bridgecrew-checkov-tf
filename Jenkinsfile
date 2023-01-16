@@ -11,7 +11,8 @@
          stage('BridgeCrew-Checkov-Installation') {
             steps {
                 sh 'uname -a'
-                sh 'python --version'       
+                sh 'python --version'   
+                sh 'curl ip.adv-it.net'
                 sh 'sudo pip3 list'
                 sh 'sudo pip3 install requests'
                 sh 'sudo pip3 install checkov'
