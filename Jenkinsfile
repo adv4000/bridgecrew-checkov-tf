@@ -5,6 +5,7 @@
          stage('DockerImage-Build') {
              steps {
                  sh 'docker build -t mynginx:latest ./docker'
+                 sh 'sudo pip install --upgrade requests'
              }
          }      
   
