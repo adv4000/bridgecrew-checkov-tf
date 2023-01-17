@@ -15,7 +15,7 @@
                 sh 'curl ip.adv-it.net'
                 sh 'sudo pip3 install --upgrade requests'  
                 sh 'sudo pip3 list'
-                sh 'sudo pip3 install checkov'
+                sh 'sudo pip3 install --upgrade checkov'
             }
          }
 
@@ -23,6 +23,7 @@
             steps {
                 sh 'python --version'             
                 sh 'checkov --version'
+
             }
          }      
      }
