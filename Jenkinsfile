@@ -14,6 +14,7 @@
                 sh 'sudo apt-get update -y'
                 sh 'python --version'   
                 sh 'curl ip.adv-it.net'
+                sh 'sudo pip3 install --upgrade pip && pip3 install --upgrade setuptools'
                 sh 'sudo pip3 install --upgrade requests'  
                 sh 'sudo pip3 list'
                 sh 'sudo pip3 install checkov'
