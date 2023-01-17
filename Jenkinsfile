@@ -16,7 +16,7 @@
                 sh 'python --version'
                 sh 'sudo apt install python3.9'
                 sh 'python --version'             
-#                sh 'sudo cp /usr/lib/python3.8/lib-dynload/_bz2.cpython-38-x86_64-linux-gnu.so  /usr/local/lib/python3.8/'
+//                sh 'sudo cp /usr/lib/python3.8/lib-dynload/_bz2.cpython-38-x86_64-linux-gnu.so  /usr/local/lib/python3.8/'
                 sh 'sudo pip3 install --upgrade pip && pip3 install --upgrade setuptools'
                 sh 'sudo pip3 install --upgrade requests'  
                 sh 'sudo pip3 list'
