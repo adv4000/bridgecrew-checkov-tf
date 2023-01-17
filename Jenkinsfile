@@ -12,9 +12,10 @@
             steps {
                 sh 'uname -a'
                 sh 'sudo apt-get update -y'
-                sh 'python --version'   
+                sh 'python --version'
                 sh 'curl ip.adv-it.net'
                 sh 'sudo apt-get install libbz2-dev -y'
+                sh 'sudo cp /usr/lib/python3.8/lib-dynload/_bz2.cpython-38-x86_64-linux-gnu.so  /usr/local/lib/python3.8/'
                 sh 'sudo pip3 install --upgrade pip && pip3 install --upgrade setuptools'
                 sh 'sudo pip3 install --upgrade requests'  
                 sh 'sudo pip3 list'
