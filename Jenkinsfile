@@ -8,18 +8,28 @@
             }
          }             
      
+         stage('BridgeCrew-CheckovInDocker') {
+             steps {
+                 script {
+                     docker.image('bridgecrew/checkov:latest').inside("--entrypoint=''") {
+                         try {
+                              sh 'checkov -d ./docker --framework dockerfile -o cli -o junitxml --output-file-path console,results.xml'
+                              junit skipPublishingChecks: true, testResults: 'results.xml'
+                         } catch (err) {
+                              junit skipPublishingChecks: true, testResults: 'results.xml'
+                             throw err
+                         }
+                     }
+                 }
+             }
+         }      
+      
          stage('BridgeCrew-Checkov-Installation') {
             steps {
                 sh 'uname -a'
                 sh 'sudo apt-get update -y'
                 sh 'sudo apt-get install libbz2-dev -y'
                 sh 'python --version'
-                sh 'sudo ls -la /usr/lib/'
-                sh 'sudo ls -la /usr/lib/python3'             
-                sh 'sudo ls -la /usr/lib/python3.9'             
-                sh 'python --version'  
-                sh 'sudo find /usr/lib/ -name "_bz.cpython-38-x86_64-linux-gnu.so"'
-                sh 'sudo cp /usr/lib/python3.9/lib-dynload/_bz2.cpython-38-x86_64-linux-gnu.so  /usr/local/lib/python3/'
                 sh 'sudo pip3 install --upgrade pip && pip3 install --upgrade setuptools'
                 sh 'sudo pip3 install --upgrade requests'  
                 sh 'sudo pip3 list'
@@ -29,9 +39,7 @@
 
          stage('BridgeCrew-Checkov-Scanning') {
             steps {
-                sh 'python --version'             
-                sh 'checkov --version'
-
+                sh 'checkov --docker-image mynginx:latest --dockerfile-path ./docker/Dockerfile --bc-api-key xxxxxxxxxxxxxx --repo-id adv4000/bridgecrew-checkov-tf'
             }
          }      
      }
