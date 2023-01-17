@@ -10,8 +10,8 @@
      
          stage('BridgeCrew-Checkov-Installation') {
             steps {
-                sh 'sudo yum update -y'
                 sh 'uname -a'
+                sh 'apt-get update -y'
                 sh 'python --version'   
                 sh 'curl ip.adv-it.net'
                 sh 'sudo pip3 install --upgrade requests'  
