@@ -18,7 +18,7 @@
                 sh 'sudo ls -la /usr/lib/python3'             
                 sh 'sudo ls -la /usr/lib/python3.9'             
                 sh 'python --version'  
-                sh 'sudo find / -name "_bz.cpython-38-x86_64-linux-gnu.so"'
+                sh 'sudo find /usr/lib/ -name "_bz.cpython-38-x86_64-linux-gnu.so"'
                 sh 'sudo cp /usr/lib/python3.9/lib-dynload/_bz2.cpython-38-x86_64-linux-gnu.so  /usr/local/lib/python3/'
                 sh 'sudo pip3 install --upgrade pip && pip3 install --upgrade setuptools'
                 sh 'sudo pip3 install --upgrade requests'  
