@@ -1,6 +1,6 @@
  pipeline {
      agent any
-     node(newimagetest){}
+//     node(newimagetest){}
         
      stages {
          stage('DockerImage-Build') {
