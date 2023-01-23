@@ -12,14 +12,14 @@
      stages {
          stage('DockerImage-Build') {
             steps {
-             sh 'docker build -t ${env.DOCKER_IMAGENAME} ${env.DOCKER_FILE_PATH}'
+             sh "docker build -t ${env.DOCKER_IMAGENAME} ${env.DOCKER_FILE_PATH}"
             }
          }             
      
          stage('BridgeCrew-Checkov-Scanning') {
             steps {
-                sh 'checkov --version'             
-                sh 'checkov --docker-image ${env.DOCKER_IMAGENAME} --dockerfile-path ${env.DOCKER_FILE_PATH}/Dockerfile --bc-api-key ${env.BRIDGECREW_API_KEY} --repo-id ${env.GIT_REPO_ID} -o cli -o junitxml --output-file-path console,results.xml'
+                sh "checkov --version"             
+                sh "checkov --docker-image ${env.DOCKER_IMAGENAME} --dockerfile-path ${env.DOCKER_FILE_PATH}/Dockerfile --bc-api-key ${env.BRIDGECREW_API_KEY} --repo-id ${env.GIT_REPO_ID} -o cli -o junitxml --output-file-path console,results.xml"
                 junit skipPublishingChecks: true, testResults: 'results.xml'
             }
          }      
