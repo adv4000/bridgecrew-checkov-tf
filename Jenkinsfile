@@ -19,6 +19,7 @@
          stage('BridgeCrew-Checkov-Scanning') {
             steps {
                 sh "checkov --version"             
+                sh "checkov --directory ${env.DOCKER_FILE_PATH} --framework dockerfile"
                 sh "checkov --docker-image ${env.DOCKER_IMAGENAME} --dockerfile-path ${env.DOCKER_FILE_PATH}/Dockerfile --bc-api-key ${env.BRIDGECREW_API_KEY} --repo-id ${env.GIT_REPO_ID} -o cli -o junitxml --output-file-path console,results.xml"
                 junit skipPublishingChecks: true, testResults: 'results.xml'
             }
